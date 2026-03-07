@@ -6,16 +6,20 @@
 ## **Fork this Repo First!!!**
 
 ### To know if it's working:
-1. Open **Github Desktop**
-2. Click Clone Repository or Press Ctrl+Shift+O
-3. Then Copy your forked repo and paste it there
+1. Click **Fork** Repository
+2. Open **Github Desktop**
+3. Click Clone your **Forked** Repository, *not this repo*
+
+> Make sure that it is your forked repo not mine, the link should look like "github.com/<<your_github_username>>/Game-Development
+
+4. Copy your forked repo and paste it there
 > Optional: Choose a path to your desired location/directory *(Mine is in /Documents/Code/Unity/Game-Development)*
 
 
-4. Open **Unity Hub**
-5. Click "Add" > "Add project from disk"
-6. Click the **Game-Development** from Project
-7. Then happy coding!
+5. Open **Unity Hub**
+6. Click "Add" > "Add project from disk"
+7. Click the **Game-Development** from Project
+8. Then happy coding!
 ###### lala
 
 
