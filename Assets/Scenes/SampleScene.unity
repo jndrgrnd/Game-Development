@@ -209,7 +209,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1450257453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
@@ -394,6 +395,7 @@ GameObject:
   - component: {fileID: 557026961}
   - component: {fileID: 557026963}
   - component: {fileID: 557026962}
+  - component: {fileID: 557026964}
   m_Layer: 0
   m_Name: RightObject
   m_TagString: RightHover
@@ -521,6 +523,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &557026964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557026960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280621db5dce83541b9ba66279291d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingScript
+  boxCollider2D: {fileID: 557026962}
+  rightHitbox: {fileID: 557026960}
+  leftHitbox: {fileID: 1549741536}
 --- !u!1 &733511159
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,13 +622,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 733511159}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -9.18, y: 0.17, z: -5.83}
-  m_LocalScale: {x: 1.4384, y: 1.4384, z: 1.4384}
+  m_LocalRotation: {x: 0, y: -0.65632904, z: 0, w: 0.7544748}
+  m_LocalPosition: {x: -9.57, y: -2.64, z: -8.61}
+  m_LocalScale: {x: 2.3740792, y: 2.3740792, z: 2.3740792}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -82.041, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +781,7 @@ GameObject:
   - component: {fileID: 1450257454}
   m_Layer: 0
   m_Name: HoverObjects
-  m_TagString: Untagged
+  m_TagString: Script
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -777,14 +794,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450257452}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.77454, y: 1.18213, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.77454, y: 0.18212998, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 557026961}
   - {fileID: 1549741537}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1450257454
 MonoBehaviour:
@@ -801,9 +818,12 @@ MonoBehaviour:
   camera: {fileID: 330585543}
   hitboxes: {fileID: 1450257452}
   rightHitbox: {fileID: 557026960}
-  speedCam: 5
+  leftHitbox: {fileID: 1549741536}
+  speedCam: 9.29
+  rotationSpeed: 63
   tolerance: 0.01
   currentPos: 1
+  toPosition: 0
 --- !u!1 &1549741536
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,6 +835,7 @@ GameObject:
   - component: {fileID: 1549741537}
   - component: {fileID: 1549741539}
   - component: {fileID: 1549741538}
+  - component: {fileID: 1549741540}
   m_Layer: 0
   m_Name: LeftObject
   m_TagString: LeftHover
@@ -942,6 +963,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1549741540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549741536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280621db5dce83541b9ba66279291d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingScript
+  boxCollider2D: {fileID: 1549741538}
+  rightHitbox: {fileID: 557026960}
+  leftHitbox: {fileID: 1549741536}
 --- !u!1 &2064294897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,4 +1079,3 @@ SceneRoots:
   - {fileID: 2064294899}
   - {fileID: 1048022397}
   - {fileID: 733511161}
-  - {fileID: 1450257453}

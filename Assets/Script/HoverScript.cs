@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System;
 using TMPro;
+using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class HoverScript : MonoBehaviour
@@ -8,14 +9,17 @@ public class HoverScript : MonoBehaviour
     Vector3 mousePosition;
     RaycastHit2D raycastHit2d;
     Transform prevHoverObject, nextHoverObject;
-    private Vector3 cameraTargetPos, hitboxesTargetPos;
-    public GameObject camera, hitboxes, rightHitbox;
-    
-    public float speedCam = 0f;
+    Quaternion cameraTargetRotation;
+    private Vector3 cameraTargetPos;
+    public GameObject camera, hitboxes, 
+        rightHitbox, leftHitbox;
+
+    public float speedCam, rotationSpeed;
     private bool hasMoved = false;
     public float tolerance = 0.01f;
 
     public int currentPos;
+    public int toPosition;
 
     private void Start()
     {
@@ -45,36 +49,57 @@ public class HoverScript : MonoBehaviour
             if (nextHoverObject != null && nextHoverObject.name == "RightObject")
             {
                 hasMoved = true;
+                toPosition = 2;
+            }
+            else if (nextHoverObject != null && nextHoverObject.name == "LeftObject")
+            {
+                hasMoved = true;
+                toPosition = 0;
             }
 
-            if (hasMoved)
+            if (hasMoved && toPosition == 2)
             {
                 rightHitbox.SetActive(false);
                 Debug.Log("Right Hitbox has been turn off");
 
                 cameraTargetPos = new Vector3(8.64f, camera.transform.position.y, camera.transform.position.z);
-                hitboxesTargetPos = new Vector3(13.41454f, hitboxes.transform.position.y, hitboxes.transform.position.z);
 
-                Debug.Log("Right Hitbox has been turn off");
-                
                 camera.transform.position =
                     Vector3.MoveTowards(
                         camera.transform.position,
                         cameraTargetPos,
                         speedCam * Time.deltaTime
                     );
-                hitboxes.transform.position =
-                    Vector3.MoveTowards(
-                        hitboxes.transform.position,
-                        hitboxesTargetPos,
-                        speedCam * Time.deltaTime
-                    );
 
-                if (IsElementsAtTarget())
+                if (isCameraAtTargetPosition())
                 {
                     Debug.Log("Camera and Hitboxes has reached the target right pane position.");
 
                     currentPos = 2;
+                    Debug.Log($"Current Position at {currentPos}");
+
+                    hasMoved = false;
+                }
+            }
+            else if (hasMoved && toPosition == 0)
+            {
+                leftHitbox.SetActive(false);
+                Debug.Log("Left Hitbox has been turn off");
+
+                cameraTargetRotation = Quaternion.Euler(camera.transform.rotation.x, -82.041f, camera.transform.rotation.z);
+
+                camera.transform.rotation = 
+                    Quaternion.RotateTowards(
+                        camera.transform.rotation,
+                        cameraTargetRotation,
+                        rotationSpeed * Time.deltaTime
+                    );
+
+                if (isCameraAtTargetRotation())
+                {
+                    Debug.Log("Camera and Hitboxes has reached the target left pane rotation.");
+
+                    currentPos = 0;
                     Debug.Log($"Current Position at {currentPos}");
 
                     hasMoved = false;
@@ -95,14 +120,7 @@ public class HoverScript : MonoBehaviour
             if (hasMoved)
             {
                 cameraTargetPos = new Vector3(0f, camera.transform.position.y, camera.transform.position.z);
-                hitboxesTargetPos = new Vector3(4.77454f, hitboxes.transform.position.y, hitboxes.transform.position.z);
 
-                hitboxes.transform.position =
-                    Vector3.MoveTowards(
-                        hitboxes.transform.position,
-                        hitboxesTargetPos,
-                        speedCam * Time.deltaTime
-                    );
                 camera.transform.position =
                     Vector3.MoveTowards(
                         camera.transform.position,
@@ -110,7 +128,39 @@ public class HoverScript : MonoBehaviour
                         speedCam * Time.deltaTime
                     );
 
-                if (IsElementsAtTarget())
+                if (isCameraAtTargetPosition())
+                {
+                    Debug.Log("Camera and Hitboxes has reached the original position.");
+
+                    currentPos = 1;
+                    Debug.Log($"Current Position at {currentPos}");
+
+                    hasMoved = false;
+                }
+            }
+        }
+        else if (currentPos == 0)
+        {
+            if (nextHoverObject != null && nextHoverObject.name == "RightObject")
+            {
+                hasMoved = true;
+
+                leftHitbox.SetActive(true);
+                Debug.Log("Left Hitbox has been turn on");
+            }
+
+            if (hasMoved)
+            {
+                cameraTargetRotation = Quaternion.Euler(camera.transform.rotation.x, 0f, camera.transform.rotation.z);
+
+                camera.transform.rotation =
+                    Quaternion.RotateTowards(
+                        camera.transform.rotation,
+                        cameraTargetRotation,
+                        rotationSpeed * Time.deltaTime
+                    );
+
+                if (isCameraAtTargetRotation())
                 {
                     Debug.Log("Camera and Hitboxes has reached the original position.");
 
@@ -124,16 +174,14 @@ public class HoverScript : MonoBehaviour
     }
 
 
-    bool IsElementsAtTarget()
+    bool isCameraAtTargetPosition()
     {
-        return Vector3.Distance(camera.transform.position, cameraTargetPos) < tolerance &&
-            Vector3.Distance(hitboxes.transform.position, hitboxesTargetPos) < tolerance;
+        return Vector3.Distance(camera.transform.position, cameraTargetPos) < tolerance;
     }
 
-    bool IsRightObjectActive()
+    bool isCameraAtTargetRotation()
     {
-
-        return false;
+        return Quaternion.Angle(camera.transform.rotation, cameraTargetRotation) < tolerance;
     }
 
 }

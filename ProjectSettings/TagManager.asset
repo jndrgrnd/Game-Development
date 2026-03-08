@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RightHover
   - LeftHover
+  - Script
   layers:
   - Default
   - TransparentFX
