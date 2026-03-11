@@ -803,7 +803,7 @@ MonoBehaviour:
   hitboxes: {fileID: 1450257452}
   rightHitbox: {fileID: 557026960}
   leftHitbox: {fileID: 1549741536}
-  speedCam: 10
+  speedCam: 11
   tolerance: 0.01
   currentPos: 1
   toPosition: 1

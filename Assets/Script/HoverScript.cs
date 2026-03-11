@@ -13,9 +13,10 @@ public class HoverScript : MonoBehaviour
     public GameObject camera, hitboxes, 
         rightHitbox, leftHitbox;
 
-    public float speedCam;
+    public float speedCam = 11;
+    private float speedCamToLeft = 17;
     private bool hasMoved = false;
-    public float tolerance = 0.5f;
+    public float tolerance = 0.01f;
 
     public int currentPos = 1;
     public int toPosition = 1;
@@ -68,6 +69,7 @@ public class HoverScript : MonoBehaviour
                     leftHitbox.SetActive(true);
                 }
 
+                Debug.Log("Moving Camera to the Right Pane");
                 cameraTargetPos = new Vector3(8.64f, camera.transform.position.y, camera.transform.position.z);
 
                 camera.transform.position =
@@ -94,13 +96,14 @@ public class HoverScript : MonoBehaviour
                     rightHitbox.SetActive(true);
                 }
 
+                Debug.Log("Moving Camera to the Left Pane");
                 cameraTargetPos = new Vector3(-17.64f, camera.transform.position.y, camera.transform.position.z);
 
                 camera.transform.position =
                     Vector3.MoveTowards(
                         camera.transform.position,
                         cameraTargetPos,
-                        speedCam * Time.deltaTime
+                        speedCamToLeft * Time.deltaTime
                     );
 
                 if (isCameraAtClosePosition())
@@ -114,7 +117,7 @@ public class HoverScript : MonoBehaviour
                 if (isCameraAtExactPosition()) { hasMoved = false; }
             }
         }
-        else if (currentPos == 0)
+        else if (currentPos == 0  || (!isObjectActive(leftHitbox) && isObjectActive(rightHitbox)))
         {
             if (nextHoverObject != null && nextHoverObject.name == "RightObject")
             {
@@ -124,20 +127,21 @@ public class HoverScript : MonoBehaviour
                 leftHitbox.SetActive(true);
             }
 
-            if (hasMoved && (toPosition == 1 || !isObjectActive(leftHitbox)))
+            if (hasMoved && (toPosition == 1 && isObjectActive(rightHitbox)))
             {
                 if (!isObjectActive(rightHitbox))
                 {
                     rightHitbox.SetActive(true);
                 }
 
+                Debug.Log("Moving Camera to the Center Pane");
                 cameraTargetPos = new Vector3(0f, camera.transform.position.y, camera.transform.position.z);
 
                 camera.transform.position =
                     Vector3.MoveTowards(
                         camera.transform.position,
                         cameraTargetPos,
-                        speedCam * Time.deltaTime
+                        speedCamToLeft * Time.deltaTime
                     );
 
                 if (isCameraAtClosePosition())
@@ -152,7 +156,7 @@ public class HoverScript : MonoBehaviour
             }
         }
         // After Disabling the Right Hover, Move the Camera to the Left
-        else if (currentPos == 2 || !isObjectActive(rightHitbox))
+        else if (currentPos == 2 || (isObjectActive(leftHitbox) && !isObjectActive(rightHitbox)))
         {
             if (nextHoverObject != null && nextHoverObject.name == "LeftObject")
             { 
@@ -162,13 +166,14 @@ public class HoverScript : MonoBehaviour
                 rightHitbox.SetActive(true);
             }
 
-            if (hasMoved && (toPosition == 1 || !isObjectActive(rightHitbox)))
+            if (hasMoved && (toPosition == 1 && isObjectActive(leftHitbox)))
             {
                 if (!isObjectActive(leftHitbox))
                 {
                     leftHitbox.SetActive(true);
                 }
 
+                Debug.Log("Moving Camera to the Center Pane");
                 cameraTargetPos = new Vector3(0f, camera.transform.position.y, camera.transform.position.z);
 
                 camera.transform.position =
@@ -197,6 +202,7 @@ public class HoverScript : MonoBehaviour
 
     bool isCameraAtExactPosition()
     { return camera.transform.position == cameraTargetPos; }
+
     bool isObjectActive(GameObject obj)
     { return obj.activeSelf; }
 }
